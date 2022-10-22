@@ -22,6 +22,14 @@ def checkcurpos(curpos, poslist):
             
     return beenthere        
 
+
+l0 = ["| |", "| |", "| |", "| |", "|0|"]
+l1 = ["| |", "| |", "| |", "| |", "| |"]
+l2 = ["| |", "| |", "| |", "| |", "| |"]
+l3 = ["| |", "| |", "| |", "| |", "| |"]
+l4 = ["| |", "| |", "| |", "| |", "| |"]
+grid = [l0, l1, l2, l3, l4]
+
 print("Exploration of the Mind")
 print("~~~~~~~~~~~~~~~~~~~~~~~")
 name = input("please enter your name: ")
@@ -34,7 +42,7 @@ if (begin == "n"):
     print ("Oh well. See you later.")
 else:
     intro = "In this game, you will move across a 5x5 board, starting at the upper corner, and answer questions until you reach the end. Be careful not to get in a hole."
-    instructions = "Type l for left, r for right, u for up, and d for down."
+    instructions = "Travel from the lower left corner to the upper right corner. To move, type l for left, r for right, u for up, and d for down. "
     print(intro)
     print(instructions)
     
@@ -43,27 +51,32 @@ else:
     answerlist = []
     
     posx = 0
-    posy = 0
+    posy = 4
     
     poslist = []
     end = False
-    while (end != True):
+    while (end == False):
         position = (posx, posy)
         prevpos = position
         
         tempposx = posx
         tempposy = posy
         
+        for lp in range (0, 5, 1):
+            gridrow = grid[lp]
+            if (posy == lp):
+                gridrow[posx] = " x "
+            print(gridrow)
+                
         playerchoice = input("Would you like to move left, right, up, or down? ")
         if (playerchoice == "l"):
             tempposx = posx -1
         elif (playerchoice == "r"):
             tempposx = posx + 1
-            print(temppos)
         elif (playerchoice == "u"):
-            tempposy = posy + 1
+            tempposy = posy - 1
         elif (playerchoice == "d"):
-            tempposy = posy -1
+            tempposy = posy + 1
         else:
             print("We didn't understand that. Try again.")
         
@@ -72,14 +85,17 @@ else:
         boundry = checkboundry(temppos)
         beenthere = checkcurpos(temppos, poslist)
         if (boundry == True):
-            print ("You've run into a boundry. Try again.")
+            print ("You've run into a boundry.")
         if (beenthere == True):
-            print ("You've already been here. Try again.")
+            print ("You've already been here.")
         else:
             poslist.append(position)
             posx = tempposx
             posy = tempposy
-            
+            print(position)
+        if (temppos == (4,0)):
+            end = True
+
         lenqlist = len(questionlist)
         num = random.randrange(0, lenqlist)
         question = questionlist[num]
@@ -89,10 +105,9 @@ else:
         questionlist.remove(question)
         answerlist.append(answer)
         
-        if (position == (4,4)):
-            end == True
-
+print("~")
 print("Thanks for playing! Here are all of your answers: ")
+print("~")
 lenqlist = len(answeredquestionlist)
 
 for lp in range (0, lenqlist, 1):
