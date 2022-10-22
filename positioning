@@ -1,0 +1,76 @@
+def checkboundry(curpos):
+    onboundry = False
+    boundrylist = [(-1, 0), (-1, 1), (-1, 2), (-1, 3), (-1, 4), (0, 5), (1, 5), (2,5), (3,5),(4,5), (5,4),(5,3),(5,2),(5,1),(5,0), (0,-1), (1,-1),(2,-1),(3,-1), (4,-1)]
+    
+    lenboundry = len(boundrylist)
+    for lp in range (0, lenboundry,1):
+        if (curpos == boundrylist[lp]):
+            onboundry = True
+            
+    return onboundry
+
+def checkcurpos(curpos, poslist):
+    beenthere = False
+    
+    poslistlen = len(poslist)
+    
+    for lp in range(0, poslistlen, 1):
+        if (curpos == poslist[lp]):
+            beenthere = True
+            
+    return beenthere        
+
+name = input("please enter your name: ")
+
+welmsg = "Welcome, " + name + "!"
+print (welmsg)
+
+begin = input("Are you ready to Begin? y/n: ")
+if (begin == "n"):
+    print ("Oh well. See you later.")
+else:
+    intro = "In this game, you will move across a 5x5 board and answer questions until you reach the end. Be careful not to get in a hole."
+    instructions = "Type l for left, r for right, u for up, and d for down."
+    print(intro)
+    print(instructions)
+    
+    posx = 0
+    posy = 0
+    
+    poslist = []
+    end = False
+    while (end != True):
+        position = (posx, posy)
+        prevpos = position
+        
+        tempposx = posx
+        tempposy = posy
+        
+        playerchoice = input("Would you like to move left, right, up, or down? ")
+        if (playerchoice == "l"):
+            tempposx = posx -1
+        elif (playerchoice == "r"):
+            tempposx = posx + 1
+            print(temppos)
+        elif (playerchoice == "u"):
+            tempposy = posy + 1
+        elif (playerchoice == "d"):
+            tempposy = posy -1
+        else:
+            print("We didn't understand that. Try again.")
+        
+        temppos = (tempposx, tempposy)
+        
+        boundry = checkboundry(temppos)
+        beenthere = checkcurpos(temppos, poslist)
+        if (boundry == True):
+            print ("You've run into a boundry. Try again.")
+        if (beenthere == True):
+            print ("You've already been here. Try again.")
+        else:
+            poslist.append(position)
+            posx = tempposx
+            posy = tempposy
+        
+        if (position == (4,4)):
+            end == True
